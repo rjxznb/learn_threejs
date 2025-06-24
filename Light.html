@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>The first three.js scene</title>
+    <title> Light </title>
 </head>
 
 <body>
@@ -21,19 +21,30 @@
         let scene = new THREE.Scene();
         const rectangleGeometry = new THREE.BoxGeometry(100, 100, 100);
         //创建一个材质对象Material；
-        const material = new THREE.MeshBasicMaterial({
-            color: 0xff0000,//0xff0000设置材质颜色为红色
+        const material = new THREE.MeshLambertMaterial({
+            color: 0x0000ff,
         });
         //创建一个网格对象Mesh；
         const mesh = new THREE.Mesh(rectangleGeometry, material);
         //将网格对象添加到场景中；
         scene.add(mesh);
 
+        // 添加axes坐标轴
+        const axesHelper = new THREE.AxesHelper(200);
+        scene.add(axesHelper);
+
+        // 添加光源：平行光源和点光源
+        const pointLight = new THREE.PointLight(0xffffff, 3.0);
+        pointLight.position.set(300, 0, 0);// 点光源放在x轴上；
+        pointLight.decay = 0.1; // 衰减系数；
+        scene.add(pointLight); //点光源添加到场景中；
+
+
         //创建一个透视相机对象；
         const width = 3000;
         const height = 3000;
         const camera = new THREE.PerspectiveCamera(30, width / height, 1, 3000);
-        camera.position.set(200, 200, 200);
+        camera.position.set(500, 200, 200);
         camera.lookAt(mesh.position);
 
         //创建一个渲染器对象；
