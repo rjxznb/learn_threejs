@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>简单HTML页面</title>
+</head>
+
+<body>
+
+    <script type='importmap'>
+    {
+        "imports": {
+            "three": "./three/build/three.module.js",
+            "three/addons/": "./three/examples/jsm/"
+        }
+    }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        let scene = new THREE.Scene();
+        const rectangleGeometry = new THREE.BoxGeometry(100, 100, 100);
+        //创建一个材质对象Material；
+        const material = new THREE.MeshBasicMaterial({
+            color: 0xff0000,//0xff0000设置材质颜色为红色
+        });
+        //创建一个网格对象Mesh；
+        const mesh = new THREE.Mesh(rectangleGeometry, material);
+        //将网格对象添加到场景中；
+        scene.add(mesh);
+
+        //创建一个透视相机对象；
+        const width = 3000;
+        const height = 3000;
+        const camera = new THREE.PerspectiveCamera(30, width / height, 1, 3000);
+        camera.position.set(200, 200, 200);
+        camera.lookAt(mesh.position);
+
+        //创建一个渲染器对象；
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(width, height);
+        renderer.render(scene, camera);
+
+        //将渲染器的输出添加到HTML文档中；
+        document.body.appendChild(renderer.domElement);
+
+    </script>
+
+</body>
+</html>
