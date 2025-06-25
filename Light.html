@@ -39,6 +39,9 @@
         pointLight.decay = 0.1; // 衰减系数；
         scene.add(pointLight); //点光源添加到场景中；
 
+        // 光源可视化：
+        let pointLightHelper = new THREE.PointLightHelper(pointLight, 10);
+        scene.add(pointLightHelper);
 
         //创建一个透视相机对象；
         const width = 3000;
