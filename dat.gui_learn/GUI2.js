@@ -1,0 +1,67 @@
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
+
+// 实例化一个gui对象
+const gui = new GUI();
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xffffff); // 设置背景颜色为黑色
+
+//创建一个长方体几何对象Geometry
+const geometry = new THREE.BoxGeometry(100, 100, 100);
+//材质对象Material
+const material = new THREE.MeshPhongMaterial({
+    color: 0x00ffff, //设置材质颜色
+    transparent: true,//开启透明
+    opacity: 0.5,//设置透明度
+    side: THREE.DoubleSide, // 双面渲染
+    shininess: 20, // 设置高光度
+    specular: 0x555555 // 设置高光颜色
+});
+
+const mesh = new THREE.Mesh(geometry, material); //网格模型对象Mesh
+// 在XOZ平面上分布
+mesh.position.set(0, 0, 200);
+scene.add(mesh); //网格模型添加到场景中  
+
+const light = new THREE.PointLight(0xffffff, 1);
+light.position.set(100, 100, 100);
+light.castShadow = true; // 允许光源投射阴影
+light.intensity = 100;
+light.decay = 0.0; // 衰减系数
+scene.add(light);
+
+let LightHelper = new THREE.PointLightHelper(light);
+scene.add(LightHelper); // 添加光源可视化辅助对象
+
+const camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 0.1, 10000);
+camera.position.z = 500;
+camera.position.y = 500; // 设置相机高度
+
+const renderer = new THREE.WebGLRenderer({antialias: true});
+renderer.setPixelRatio(window.devicePixelRatio);
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+// 设置相机控件轨道控制器OrbitControls
+const controls = new OrbitControls(camera, renderer.domElement);
+
+// 通过GUI改变光照对象的intensity属性；
+gui.add(light, 'intensity', 0, 100.0);
+gui.add(mesh.position, 'x', {left:-180, mid:0, right:180}); // 使用数组来指定范围
+gui.add(mesh.position, 'y', 0, 180);
+gui.add(mesh.position, 'z', 0, 180);
+
+// 添加颜色选择器到GUI
+gui.addColor(material, 'color').onChange(function(value){
+    mesh.material.color.set(value);
+});
+
+function animate() {
+    requestAnimationFrame(animate);
+    controls.update();
+    renderer.render(scene, camera);
+}
+
+animate();

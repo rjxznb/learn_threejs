@@ -1,0 +1,60 @@
+<!DOCTYPE>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Canvas Example</title>
+    <style>
+        a{
+            font-size: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+  <div>
+    <a id="e1" href="#">菜鸟教程 1</a>
+    <a id="e2" href="#">菜鸟教程 2</a>
+    <a id="e3" href="#">菜鸟教程 3</a>
+  </div>
+</div>
+
+    <script type='importmap'>
+    {
+        "imports": {
+            "three": "./three/build/three.module.js",
+            "three/addons/": "./three/examples/jsm/"
+        }
+    }
+    </script>
+
+    <script type="module">
+        document.getElementById("e1").addEventListener("click", function() {
+            import("./GUI1.js").catch(err => {
+                console.error("Error loading module:", err);
+            });
+            alert("菜鸟教程 1");
+        });
+
+        document.getElementById("e2").addEventListener("click", function() {
+            import("./GUI2.js").catch(err => {
+                console.error("Error loading module:", err);
+            });
+            alert("菜鸟教程 2");
+        });
+
+        document.getElementById("e3").addEventListener("click", function() {
+            import("./GUI3.js").catch(err => {
+                console.error("Error loading module:", err);
+            });
+            alert("菜鸟教程 3");
+        });
+    </script>
+
+
+
+</body>
+
+</html>
+
+
