@@ -25,21 +25,26 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
 
         const geometry = new THREE.BoxGeometry();
-        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        const material = new THREE.MeshLambertMaterial({ color: 0x00ff00 });
         const cube = new THREE.Mesh(geometry, material);
         scene.add(cube);
 
-        let pointLight = new THREE.PointLight(0xffffff, 3.0);
-        pointLight.position.set(300, 0, 0); // 点光源放在x轴上
-        pointLight.decay = 0.0; // 衰减系数
-        scene.add(pointLight); // 点光源添加到场景中        
+        let axesHelper = new THREE.AxesHelper(5);
+        scene.add(axesHelper); // 添加坐标轴辅助对象
 
-        let pointLightHelper = new THREE.PointLightHelper(pointLight, 10);
-        scene.add(pointLightHelper);
+        // ；
+        let spotLight = new THREE.SpotLight(0xffffff, 1.0);
+        spotLight.position.set(100, 100, 100); // 设置光源位置
+        spotLight.decay = 0.0;
+        spotLight.target = cube
+        scene.add(spotLight); // 添加光源到场景中；
+
+        // 光源可视化；
+        let spotLightHelper = new THREE.SpotLightHelper(spotLight);
+        scene.add(spotLightHelper); // 添加光源可视化辅助对象
 
         renderer.render(scene, camera);
         document.body.appendChild(renderer.domElement);
-
 
         // 设置相机控件轨道控制器OrbitControls
         const controls = new OrbitControls(camera, renderer.domElement);
@@ -50,7 +55,6 @@
             
         });//监听鼠标、键盘事件
 
-        animate();
     </script>
 </body>
 
